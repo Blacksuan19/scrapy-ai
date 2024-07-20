@@ -1,2 +1,5 @@
 scrapy
-scrapy-playwright
+gensim
+html2text   
+instructor
+litellm
