@@ -31,10 +31,10 @@ jobs:
             dist/*.whl
 
       - name: Upload artifact to action
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
-          name: Wheel Package
-          path: dist/*.whl
+          name: release-dists
+          path: dist/
 
   pypi-publish:
     runs-on: ubuntu-latest
