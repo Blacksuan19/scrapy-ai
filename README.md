@@ -18,13 +18,19 @@ pip install scrapy-llm
 
 ```python
 # settings.py
+
+# set the response model to use for extracting data to a pydantic model (required)
+# or set it as an attribute on the spider class as response_model
+LLM_RESPONSE_MODEL = 'scraper.models.ResponseModel'
+
+# enable the middleware
 DOWNLOADER_MIDDLEWARES = {
     'scrapy_llm.handler.LlmExtractorMiddleware': 543,
     ...
 }
 ```
 
-then access extracted data from response object
+then access extracted data from the response object.
 
 ```python
 # spider.py
@@ -32,6 +38,26 @@ def parse(self, response):
     extracted_data: Dict[str, Any] = response.request.meta.get('llm_extracted_data')
     ...
 ```
+
+## Examples
+
+the [examples](./examples/) directory contains a sample scrapy project that uses the middleware to extract capacity data from university websites.
+
+to run the example project, export your openai api key as an environment variable, in addition to any other settings you want to change.
+
+```bash
+export OPENAI_API_KEY=<your-api-key>
+```
+
+then run the example project using the following command
+
+```bash
+cd examples
+scrapy crawl generic -a urls_file=urls.csv
+
+```
+
+add more urls to the `urls.csv` file to extract data from more websites.
 
 ## Configuration
 
