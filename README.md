@@ -1,10 +1,20 @@
 # Scrapy-LLM
 
-LLM integration for scrapy as a middleware.
+LLM integration for scrapy as a middleware. Extract any data from the web using your own predefined schema with your own preferred language model.
+
+[![GitHub Workflow Status](https://img.shields.io/github/workflow/status/abdurohman/scrapy-llm/CI?style=for-the-badge)](
 
 [![view - Documentation](https://img.shields.io/badge/PyPi-0.1.9-blue?style=for-the-badge)](https://pypi.org/project/scrapy-llm "view package on PyPi")
 &nbsp;&nbsp;&nbsp;
 [![GitHub Actions](https://img.shields.io/badge/github%20actions-%232671E5.svg?style=for-the-badge&logo=githubactions&logoColor=white)](# "Build with github actions")
+
+## Features
+
+- Extract data from web page text using a language model.
+- Define a schema for the extracted data using pydantic models.
+- Validate the extracted data against the defined schema.
+- Seamlessly integrate with any API compatible with the OpenAI API specification.
+- Use any language model deployed on an API compatible with the OpenAI API specification.
 
 ## Installation
 
