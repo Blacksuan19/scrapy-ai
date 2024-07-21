@@ -56,11 +56,6 @@ class LLMDormItem(BaseModel):
     )
     email: Optional[str] = Field(description="Email address of the dorm or university")
 
-    room_types: Optional[List[RoomType]] = Field(
-        description="available room types, mention each type only once with a single word.",
-        example=["single", "double"],
-    )
-
     capacity: Optional[CapacityInfo] = Field(
         description="Capacity data of the dorm.",
         example={"n_person": 100, "n_unit": 50, "n_building": 5, "n_floor": 3},
