@@ -1,0 +1,42 @@
+name: Release and Publish wheel package
+
+on:
+  push:
+    tags:
+      - "*"
+
+  workflow_dispatch:
+
+jobs:
+  build_wheel:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-python@v3
+
+      - name: Install dependecies
+        run: |
+          python -m pip install -U pip wheel setuptools build twine
+
+      - name: Build wheel package
+        run: python -m build
+
+      - name: Release wheel package
+        uses: "marvinpinto/action-automatic-releases@latest"
+        with:
+          repo_token: "${{ secrets.GITHUB_TOKEN }}"
+          prerelease: false
+          title: "Latest Stable Build"
+          files: |
+            dist/*.whl
+
+      - name: Upload artifact to action
+        uses: actions/upload-artifact@v3
+        with:
+          name: Wheel Package
+          path: dist/*.whl
+
+      - name: Publish package
+        uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          password: ${{ secrets.PYPI_API_TOKEN }}
