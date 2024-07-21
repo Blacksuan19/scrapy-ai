@@ -7,10 +7,9 @@ from scrapy.crawler import Crawler
 from scrapy.http.response import Response
 from scrapy.spiders import Spider
 
-from examples.dorm_capacity.utils.llm.utils import LLMOutput
 from scrapy_llm.config import LlmExtractorConfig
-from scrapy_llm.types import T
-from scrapy_llm.utils import flatten_dict
+from scrapy_llm.types import LLMOutput, T
+from scrapy_llm.utils import flatten_dict, process_html
 
 LLMExtractor = TypeVar("LLMExtractor", bound="LlmExtractorMiddleware")
 
@@ -34,12 +33,14 @@ class LlmExtractorMiddleware(Generic[T]):
     def process_response(
         self, request: Request, response: Response, spider: Spider
     ) -> Response:
-        extracted_data = self.extract_item_data(response.text, self.response_model)
+        extracted_data = self.extract_item_data(
+            response.text, self.config.response_model
+        )
 
-        if self.unwrap_nested:
+        if self.config.unwrap_nested:
             extracted_data = flatten_dict(extracted_data)
 
-        response.meta["llm_extracted_data"] = extracted_data
+        request.meta["llm_extracted_data"] = extracted_data
 
         return response
 
@@ -48,12 +49,10 @@ class LlmExtractorMiddleware(Generic[T]):
 
     def extract_item_data(
         self,
-        clean_html: str,
+        raw_html: str,
         response_model: Type[T],
     ) -> List[LLMOutput]:
         """Extract dorm data from the given HTML text using an LLM model."""
-
-        print("Extracting dorm data from the given HTML text using mamba model")
 
         cl = instructor.from_litellm(completion)
 
@@ -67,7 +66,7 @@ class LlmExtractorMiddleware(Generic[T]):
                     "role": "system",
                     "content": self.config.llm_system_message,
                 },
-                {"role": "user", "content": clean_html},
+                {"role": "user", "content": process_html(raw_html)},
             ],
             # always return an iterable of the given type to simplify nested type cascading.
             response_model=Iterable[response_model],
