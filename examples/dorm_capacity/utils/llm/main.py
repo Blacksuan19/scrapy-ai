@@ -2,9 +2,8 @@ from os import environ
 from typing import Iterable, List
 
 import instructor
+from dorm_capacity.utils.llm.utils import CombinedLLMOutput, LLMItemType, flatten_dict
 from litellm import completion
-
-from llm_scraper.utils.llm.utils import CombinedLLMOutput, LLMItemType, flatten_dict
 
 
 def extract_item_data(

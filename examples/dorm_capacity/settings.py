@@ -1,7 +1,7 @@
 # meta
-BOT_NAME = "llm_scraper"
-SPIDER_MODULES = ["llm_scraper.spiders"]
-NEWSPIDER_MODULE = "llm_scraper.spiders"
+BOT_NAME = "dorm_capacity"
+SPIDER_MODULES = ["dorm_capacity.spiders"]
+NEWSPIDER_MODULE = "dorm_capacity.spiders"
 
 # general settings
 LOG_LEVEL = "DEBUG"

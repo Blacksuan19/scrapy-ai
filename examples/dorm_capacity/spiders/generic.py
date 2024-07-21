@@ -2,12 +2,11 @@ from typing import Any, Dict, Iterable, List
 
 import pandas as pd
 import scrapy
+from dorm_capacity.utils.llm.main import extract_item_data
+from dorm_capacity.utils.llm.utils import LLMDormItem
+from dorm_capacity.utils.text import process_html
 from scrapy import Request
 from scrapy.http.response.html import HtmlResponse
-
-from llm_scraper.utils.llm.main import extract_item_data
-from llm_scraper.utils.llm.utils import LLMDormItem
-from llm_scraper.utils.text import process_html
 
 ResponseType = Dict[str, Any]
 
