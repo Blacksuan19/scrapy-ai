@@ -69,6 +69,8 @@ add more urls to the `urls.csv` file to extract data from more websites.
 
 All aspects of the middleware can be configured using the `settings.py` file except the API key which should be set as the environment variable `OPENAI_API_KEY` according to the openai api documentation [here](https://beta.openai.com/docs/api-reference/authentication).
 
+when using an API that does not require an API key, the `OPENAI_API_KEY` environment variable can be set to any value.
+
 ### `LLM_RESPONSE_MODEL`
 
 - type: str
