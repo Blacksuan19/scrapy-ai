@@ -4,8 +4,6 @@ LLM integration for scrapy as a middleware.
 
 [![view - Documentation](https://img.shields.io/badge/PyPi-0.1.8-blue?style=for-the-badge)](https://pypi.org/project/scrapy-llm "view package on PyPi")
 &nbsp;&nbsp;&nbsp;
-<!-- [![view - Documentation](https://img.shields.io/badge/view-Documentation-blue?style=for-the-badge)](https://redash.blacksuan19.dev/ "go to documentation") -->
-<!-- &nbsp;&nbsp;&nbsp; -->
 [![GitHub Actions](https://img.shields.io/badge/github%20actions-%232671E5.svg?style=for-the-badge&logo=githubactions&logoColor=white)](# "Build with github actions")
 
 ## Installation
@@ -172,3 +170,15 @@ the system message to use for the language model.
 ```python
 LLM_SYSTEM_MESSAGE = '...'
 ```
+
+## Under the hood
+
+Under the hood, `scrapy-llm` utilizes two libraries to facilitate data extraction from web page text. The first library is [Instructor](https://python.useinstructor.com/), which uses pydantic to define a schema for the extracted data. This schema is then used to validate the extracted data and ensure that it conforms to the desired structure. By defining a schema for the extracted data, Instructor provides a clear and consistent way to organize and process the extracted information.
+
+The second library is LiteLLM, which enables seamless integration between instructor and any API compatible with the OpenAI API specification. LiteLLM allows using any language model as long as it is deployed on an API compatible with the OpenAI [API specification](https://platform.openai.com/docs/api-reference/introduction). This flexibility makes it easy to switch between different language models and experiment with different configurations to find the best model for a given task.
+
+By combining the functionalities of Instructor and LiteLLM, `scrapy-llm` becomes a robust tool for extracting data from web page text. Whether it's scraping a single page or crawling an entire website, `scrapy-llm` offers a reliable and adaptable solution for all data extraction needs.
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](./LICENSE) file for details.
