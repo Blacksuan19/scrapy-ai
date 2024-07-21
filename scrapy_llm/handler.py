@@ -60,7 +60,7 @@ class LlmExtractorMiddleware(Generic[T]):
             model=self.config.llm_model,
             api_base=self.config.llm_api_base,
             custom_llm_provider="openai",
-            temperature=self.config.llm_tempature,
+            temperature=self.config.llm_temperature,
             messages=[
                 {
                     "role": "system",

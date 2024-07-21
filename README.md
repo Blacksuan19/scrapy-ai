@@ -19,7 +19,7 @@ pip install scrapy-llm
 ```python
 # settings.py
 DOWNLOADER_MIDDLEWARES = {
-    'scrapy_llm.handler.LlmExtractorMiddleware'
+    'scrapy_llm.handler.LlmExtractorMiddleware': 543,
     ...
 }
 ```

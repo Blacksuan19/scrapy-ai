@@ -14,7 +14,7 @@ class LlmExtractorConfig:
     unwrap_nested: bool = False
     llm_api_base: str = "https://api.openai.com/v1"
     llm_model: str = "gpt-4-turbo"
-    llm_tempature: float = 0.0001
+    llm_temperature: float = 0.0001
     llm_system_message: str = (
         "You are a data extraction expert, your role is to extract data from the given text according to the provided schema. make sure your output is a valid JSON object."
     )
@@ -27,7 +27,7 @@ class LlmExtractorConfig:
         )
         model: str = crawler.settings.get("LLM_MODEL", cls.llm_model)
         model_tempature: float = crawler.settings.get(
-            "LLM_MODEL_TEMPATURE", cls.llm_tempature
+            "LLM_MODEL_TEMPERATURE", cls.llm_temperature
         )
         response_model_path: str = crawler.settings.get("LLM_RESPONSE_MODEL", None)
         unwrap_nested: bool = crawler.settings.get(
