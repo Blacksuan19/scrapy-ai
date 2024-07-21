@@ -1,5 +1,0 @@
-scrapy
-gensim
-html2text   
-instructor
-litellm
