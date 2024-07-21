@@ -1,10 +1,8 @@
-from typing import Any, Dict, Iterable, List
+from typing import Any, Dict, Iterable
 
 import pandas as pd
 import scrapy
-from dorm_capacity.utils.llm.main import extract_item_data
-from dorm_capacity.utils.llm.utils import LLMDormItem
-from dorm_capacity.utils.text import process_html
+from dorm_capacity.utils.models import LLMDormItem
 from scrapy import Request
 from scrapy.http.response.html import HtmlResponse
 
@@ -28,7 +26,7 @@ class GenericSpider(scrapy.Spider):
     """
 
     name = "generic"
-    urls: List[str] = []
+    response_model = LLMDormItem
 
     def __init__(self, urls_file: str, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -36,9 +34,6 @@ class GenericSpider(scrapy.Spider):
         # urls_file is a csv file with a column named "url"
         url_df = pd.read_csv(urls_file, index_col=False)
         self.start_urls = url_df["url"].tolist()
-
-        print(f"Scraping {len(self.urls)} URLs")
-        print(self.urls)
 
     def start_requests(self) -> Iterable[Request]:
         """
@@ -48,6 +43,4 @@ class GenericSpider(scrapy.Spider):
             yield Request(url=url)
 
     def parse(self, response: HtmlResponse) -> ResponseType:
-        return extract_item_data(
-            process_html(response.text), response_model=LLMDormItem
-        )
+        return response.request.meta.get("llm_extracted_data")

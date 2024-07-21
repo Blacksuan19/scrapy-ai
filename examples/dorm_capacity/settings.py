@@ -1,3 +1,5 @@
+from os import environ
+
 # meta
 BOT_NAME = "dorm_capacity"
 SPIDER_MODULES = ["dorm_capacity.spiders"]
@@ -10,6 +12,13 @@ AUTOTHROTTLE_ENABLED = True
 AUTOTHROTTLE_DEBUG = True
 HTTPCACHE_ENABLED = True
 HTTPCACHE_EXPIRATION_SECS = 0
+
+# LLM middleware config
+LLM_API_BASE = environ.get("LLM_API_BASE")
+
+
+# download settings
+DOWNLOADER_MIDDLEWARES = {"scrapy_llm.handler.LlmExtractorMiddleware": 543}
 
 # saving results to a file with the name of the spider
 FEEDS = {
