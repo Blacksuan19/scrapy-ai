@@ -4,10 +4,12 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "scrapy_llm"
-version = "0.1"
+version = "0.1.0"
 description = "LLM integration for Scrapy"
 readme = "README.md"
 authors = [{ name = "blacksuan19", email = "py@blacksuan19.dev" }]
+requires-python = ">=3.10"
+
 classifiers = [
     "Programming Language :: Python",
     "Programming Language :: Python :: 3",
@@ -22,11 +24,13 @@ dependencies = [
     "pandas",
     "pydantic",
 ]
-requires-python = ">=3.10"
+
+[project.optional-dependencies]
+dev = ["black", "bumpver", "pip-tools", "wheel"]
 
 
 [tool.bumpver]
-current_version = "0.1"
+current_version = "0.1.0"
 version_pattern = "MAJOR.MINOR.PATCH"
 commit_message = "Bump version {old_version} -> {new_version}"
 commit = true
