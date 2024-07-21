@@ -2,7 +2,7 @@
 
 LLM integration for scrapy as a middleware.
 
-[![view - Documentation](https://img.shields.io/badge/PyPi-0.1.6-blue?style=for-the-badge)](https://pypi.org/project/scrapy-llm "view package on PyPi")
+[![view - Documentation](https://img.shields.io/badge/PyPi-0.1.7-blue?style=for-the-badge)](https://pypi.org/project/scrapy-llm "view package on PyPi")
 &nbsp;&nbsp;&nbsp;
 <!-- [![view - Documentation](https://img.shields.io/badge/view-Documentation-blue?style=for-the-badge)](https://redash.blacksuan19.dev/ "go to documentation") -->
 <!-- &nbsp;&nbsp;&nbsp; -->
