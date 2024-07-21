@@ -3,3 +3,8 @@
 *.json
 *.jsonl
 .directory
+
+# package build
+dist/
+build/
+*.egg-info/
