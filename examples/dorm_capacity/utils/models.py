@@ -58,5 +58,11 @@ class LLMDormItem(BaseModel):
 
     capacity: Optional[CapacityInfo] = Field(
         description="Capacity data of the dorm.",
-        example={"n_person": 100, "n_unit": 50, "n_building": 5, "n_floor": 3},
+        example={
+            "n_person": 100,
+            "n_unit": 50,
+            "n_building": 5,
+            "n_floor": 3,
+            "room_types": ["single", "double"],
+        },
     )
