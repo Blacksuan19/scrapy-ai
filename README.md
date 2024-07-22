@@ -66,13 +66,22 @@ class Address(BaseModel):
     state: str
     zip_code: str
 
-
 class ResponseModel(BaseModel):
-    name: str = Field(description='The name of the person')
-    age: int = Field(description='The age of the person')
-    phone: Optional[PhoneNumber] = Field(description='The phone number of the person', example='123-456-7890')
-    email: Optional[EmailStr] = Field(description='The email of the person')
-    address: Optional[Address] = Field(description='The address of the person', example={'street': '123 Main St', 'city': 'Anytown', 'state': 'NY', 'zip_code': '12345'})
+    name: str = Field(description="The name of the person")
+    age: int = Field(description="The age of the person")
+    phone: Optional[PhoneNumber] = Field(
+        description="The phone number of the person", example="123-456-7890"
+    )
+    email: Optional[EmailStr] = Field(description="The email of the person")
+    address: Optional[Address] = Field(
+        description="The address of the person",
+        example={
+            "street": "123 Main St",
+            "city": "Anytown",
+            "state": "NY",
+            "zip_code": "12345",
+        },
+    )
 ```
 
 ## Examples
