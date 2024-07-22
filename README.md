@@ -51,7 +51,7 @@ Response models are used to define the schema for the extracted data. The schema
 
 In addition to the officially supported types there are other third-party libraries that add support for more types such as [pydantic-extra-types](https://docs.pydantic.dev/2.0/usage/types/extra_types/extra_types/) which adds support for phone numbers, credit card numbers, and more. alternatively, custom types can be created by subclassing the `pydantic.BaseModel` class.
 
-when defining the response model, adding descriptions for each field is recommended to improve the quality of the extracted data. instructor will use these descriptions to guide the language model in generating the output. it is also recommended to make fields that the model has a hard time extracting or are not always present optional, this will prevent the entire process from failing if a field is not extracted.
+when defining the response model, adding descriptions and examples for each field is recommended to improve the quality of the extracted data. instructor will use these descriptions to guide the language model in generating the output. it is also recommended to make fields that the model has a hard time extracting or are not always present optional, this will prevent the entire process from failing if a field is not extracted.
 
 ```python
 # models.py
@@ -72,7 +72,7 @@ class ResponseModel(BaseModel):
     age: int = Field(description='The age of the person')
     phone: Optional[PhoneNumber] = Field(description='The phone number of the person', example='123-456-7890')
     email: Optional[EmailStr] = Field(description='The email of the person')
-    address: Optional[Address] = Field(description='The address of the person')
+    address: Optional[Address] = Field(description='The address of the person', example={'street': '123 Main St', 'city': 'Anytown', 'state': 'NY', 'zip_code': '12345'})
 ```
 
 ## Examples
