@@ -45,6 +45,36 @@ def parse(self, response):
     ...
 ```
 
+### Creating a response model
+
+Response models are used to define the schema for the extracted data. The schema is used to validate the extracted data and ensure that it conforms to the desired structure. The response model should be a pydantic model with the desired fields and types. pydantic has support for many types including custom types like regex based types, emails, enums and more, for a full list of supported types check the [pydantic documentation](https://pydantic-docs.helpmanual.io/usage/types/).
+
+In addition to the officially supported types there are other third-party libraries that add support for more types such as [pydantic-extra-types](https://docs.pydantic.dev/2.0/usage/types/extra_types/extra_types/) which adds support for phone numbers, credit card numbers, and more. alternatively, custom types can be created by subclassing the `pydantic.BaseModel` class.
+
+when defining the response model, adding descriptions for each field is recommended to improve the quality of the extracted data. instructor will use these descriptions to guide the language model in generating the output. it is also recommended to make fields that the model has a hard time extracting or are not always present optional, this will prevent the entire process from failing if a field is not extracted.
+
+```python
+# models.py
+from pydantic import BaseModel, Field, EmailStr
+from pydantic_extra_types.phone_numbers import PhoneNumber
+from typing import Optional
+
+# create a custom pydantic type
+class Address(BaseModel):
+    street: str
+    city: str
+    state: str
+    zip_code: str
+
+
+class ResponseModel(BaseModel):
+    name: str = Field(description='The name of the person')
+    age: int = Field(description='The age of the person')
+    phone: Optional[PhoneNumber] = Field(description='The phone number of the person', example='123-456-7890')
+    email: Optional[EmailStr] = Field(description='The email of the person')
+    address: Optional[Address] = Field(description='The address of the person')
+```
+
 ## Examples
 
 the [examples](./examples/) directory contains a sample scrapy project that uses the middleware to extract capacity data from university websites.
