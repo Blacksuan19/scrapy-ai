@@ -42,6 +42,9 @@ jobs:
       - build_wheel
     permissions:
       id-token: write
+    environment:
+      name: pypi
+      url: https://pypi.org/p/scrapy-llm
 
     steps:
       - name: Retrieve release distributions
