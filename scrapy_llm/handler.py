@@ -7,7 +7,7 @@ from scrapy.crawler import Crawler
 from scrapy.http.response import Response
 from scrapy.spiders import Spider
 
-from scrapy_llm.config import LlmExtractorConfig
+from scrapy_llm.config import LLM_EXTRACTED_DATA_KEY, LlmExtractorConfig
 from scrapy_llm.types import LLMOutput, T
 from scrapy_llm.utils import flatten_dict, process_html
 
@@ -40,7 +40,7 @@ class LlmExtractorMiddleware(Generic[T]):
         if self.config.unwrap_nested:
             extracted_data = flatten_dict(extracted_data)
 
-        request.meta["llm_extracted_data"] = extracted_data
+        request.meta[LLM_EXTRACTED_DATA_KEY] = extracted_data
 
         return response
 
