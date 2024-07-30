@@ -51,6 +51,6 @@ class LlmExtractorConfig:
             llm_api_base=api_base,
             unwrap_nested=unwrap_nested,
             llm_model=model,
-            llm_tempature=model_tempature,
+            llm_temperature=model_tempature,
             llm_system_message=system_message,
         )
