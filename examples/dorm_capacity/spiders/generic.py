@@ -6,6 +6,8 @@ from dorm_capacity.utils.models import LLMDormItem
 from scrapy import Request
 from scrapy.http.response.html import HtmlResponse
 
+from scrapy_llm.config import LLM_EXTRACTED_DATA_KEY
+
 
 class GenericSpider(scrapy.Spider):
     """
@@ -41,4 +43,4 @@ class GenericSpider(scrapy.Spider):
             yield Request(url=url)
 
     def parse(self, response: HtmlResponse) -> Dict[str, Any]:
-        return response.request.meta.get("llm_extracted_data")
+        return response.request.meta.get(LLM_EXTRACTED_DATA_KEY)

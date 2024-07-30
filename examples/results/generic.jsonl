@@ -1,1 +1,1 @@
-{"name": "Centennial Hall", "address": "1101 E. Wooster St., Bowling Green, OH 43403-4003", "telephone": "419-372-4050", "email": "ivyem@bgsu.edu", "capacity": {"n_person": 600, "n_unit": null, "n_building": 1, "n_floor": null, "room_types": ["double", "single"]}}
+{"name": "Centennial Hall", "address": "1101 E. Wooster St., Bowling Green, OH 43403-4003", "telephone": "419-372-4050", "email": "ivyem@bgsu.edu", "n_person": 600, "n_unit": null, "n_building": 1, "n_floor": null, "room_types": ["double", "single"]}

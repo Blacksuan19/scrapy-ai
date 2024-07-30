@@ -1,11 +1,13 @@
 import importlib
 from dataclasses import dataclass
-from typing import Optional, Type
+from typing import Final, Optional, Type
 
 from scrapy.crawler import Crawler
 from scrapy.exceptions import NotConfigured
 
 from scrapy_llm.types import T
+
+LLM_EXTRACTED_DATA_KEY: Final[str] = "llm_extracted_data"
 
 
 @dataclass

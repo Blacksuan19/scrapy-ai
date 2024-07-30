@@ -40,8 +40,10 @@ then access extracted data from the response object.
 
 ```python
 # spider.py
+from scrapy_llm.config import LLM_EXTRACTED_DATA_KEY
+
 def parse(self, response):
-    extracted_data: Dict[str, Any] = response.request.meta.get('llm_extracted_data')
+    extracted_data: Dict[str, Any] = response.request.meta.get(LLM_EXTRACTED_DATA_KEY)
     ...
 ```
 
