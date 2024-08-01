@@ -22,6 +22,10 @@ pip install scrapy-llm
 
 ## Usage
 
+The guide below assumes that a scrapy project has already been set up. If not, follow the [official scrapy tutorial](https://docs.scrapy.org/en/latest/intro/tutorial.html) to create a new project.
+
+Setup the middleware in the `settings.py` file and define the response model to use for extracting data from the web page text.
+
 ```python
 # settings.py
 
@@ -41,10 +45,15 @@ then access extracted data from the response object.
 ```python
 # spider.py
 from scrapy_llm.config import LLM_EXTRACTED_DATA_KEY
+from scraper.models import ResponseModel
 
-def parse(self, response):
-    extracted_data: Dict[str, Any] = response.request.meta.get(LLM_EXTRACTED_DATA_KEY)
-    ...
+class MySpider(scrapy.Spider):
+    name = 'my_spider'
+    response_model = ResponseModel # set the response model as an attribute on the spider class if not set in settings
+    
+    def parse(self, response):
+        extracted_data = response.request.meta.get(LLM_EXTRACTED_DATA_KEY)
+        ...
 ```
 
 ### Creating a response model
