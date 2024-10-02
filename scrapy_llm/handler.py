@@ -66,7 +66,14 @@ class LlmExtractorMiddleware(Generic[T]):
                     "role": "system",
                     "content": self.config.llm_system_message,
                 },
-                {"role": "user", "content": process_html(raw_html)},
+                {
+                    "role": "user",
+                    "content": process_html(
+                        raw_html,
+                        self.config.html_cleaner_ignore_links,
+                        self.config.html_cleaner_ignore_images
+                    )
+                }
             ],
             # always return an iterable of the given type to simplify nested type cascading.
             response_model=Iterable[response_model],
