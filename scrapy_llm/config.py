@@ -20,6 +20,8 @@ class LlmExtractorConfig:
     llm_system_message: str = (
         "You are a data extraction expert, your role is to extract data from the given text according to the provided schema. make sure your output is a valid JSON object."
     )
+    html_cleaner_ignore_links: bool = True
+    html_cleaner_ignore_images: bool = True
 
     @classmethod
     def from_crawler(cls, crawler: Crawler) -> "LlmExtractorConfig":
@@ -28,7 +30,7 @@ class LlmExtractorConfig:
             "LLM_SYSTEM_MESSAGE", cls.llm_system_message
         )
         model: str = crawler.settings.get("LLM_MODEL", cls.llm_model)
-        model_tempature: float = crawler.settings.get(
+        model_temperature: float = crawler.settings.get(
             "LLM_MODEL_TEMPERATURE", cls.llm_temperature
         )
         response_model_path: str = crawler.settings.get("LLM_RESPONSE_MODEL", None)
@@ -48,11 +50,16 @@ class LlmExtractorConfig:
                 "Response model not provided for LlmExtractorMiddleware, Please set LLM_RESPONSE_MODEL to class path in settings or define response_model in the spider."
             )
 
+        html_cleaner_ignore_links: bool = crawler.settings.get("HTML_CLEANER_IGNORE_LINKS", True)
+        html_cleaner_ignore_images: bool = crawler.settings.get("HTML_CLEANER_IGNORE_IMAGES", True)
+
         return cls(
             response_model=response_model,
             llm_api_base=api_base,
             unwrap_nested=unwrap_nested,
             llm_model=model,
-            llm_temperature=model_tempature,
+            llm_temperature=model_temperature,
             llm_system_message=system_message,
+            html_cleaner_ignore_links=html_cleaner_ignore_links,
+            html_cleaner_ignore_images=html_cleaner_ignore_images
         )
