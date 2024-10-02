@@ -231,6 +231,30 @@ the system message to use for the language model.
 LLM_SYSTEM_MESSAGE = '...'
 ```
 
+### `HTML_CLEANER_IGNORE_LINKS`
+
+- type: bool
+- required: False
+- default: True
+
+whether to ignore links when cleaning the html.
+
+```python
+HTML_CLEANER_IGNORE_LINKS = True
+```
+
+### `HTML_CLEANER_IGNORE_IMAGES`
+
+- type: bool
+- required: False
+- default: True
+
+whether to ignore images when cleaning the html.
+
+```python
+HTML_CLEANER_IGNORE_IMAGES = True
+```
+
 ## Under the hood
 
 Under the hood, `scrapy-llm` utilizes two libraries to facilitate data extraction from web page text. The first library is [Instructor](https://python.useinstructor.com/), which uses pydantic to define a schema for the extracted data. This schema is then used to validate the extracted data and ensure that it conforms to the desired structure. By defining a schema for the extracted data, Instructor provides a clear and consistent way to organize and process the extracted information.
