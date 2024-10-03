@@ -6,6 +6,7 @@ from scrapy import Request, signals
 from scrapy.crawler import Crawler
 from scrapy.http.response import Response
 from scrapy.spiders import Spider
+from scrapy.utils.log import logger
 
 from scrapy_llm.config import LLM_EXTRACTED_DATA_KEY, LlmExtractorConfig
 from scrapy_llm.types import LLMOutput, T
@@ -22,6 +23,7 @@ class LlmExtractorMiddleware(Generic[T]):
     ):
         self.crawler = crawler
         self.config = config
+        self.logger = logger
 
     @classmethod
     def from_crawler(cls: Type[LLMExtractor], crawler: Crawler) -> LLMExtractor:
@@ -56,6 +58,15 @@ class LlmExtractorMiddleware(Generic[T]):
 
         cl = instructor.from_litellm(completion)
 
+        self.logger.debug(f"Raw HTML: {raw_html}")
+        content = process_html(
+            raw_html,
+            self.config.html_cleaner_ignore_links,
+            self.config.html_cleaner_ignore_images
+        )
+
+        self.logger.debug(f"Content: {content}")
+
         resp: List[response_model] = cl.chat.completions.create(
             model=self.config.llm_model,
             api_base=self.config.llm_api_base,
@@ -68,11 +79,7 @@ class LlmExtractorMiddleware(Generic[T]):
                 },
                 {
                     "role": "user",
-                    "content": process_html(
-                        raw_html,
-                        self.config.html_cleaner_ignore_links,
-                        self.config.html_cleaner_ignore_images
-                    )
+                    "content": content
                 }
             ],
             # always return an iterable of the given type to simplify nested type cascading.
