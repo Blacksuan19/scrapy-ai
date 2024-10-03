@@ -16,6 +16,7 @@ HTTPCACHE_EXPIRATION_SECS = 0
 # LLM middleware config
 LLM_API_BASE = environ.get("LLM_API_BASE")
 LLM_UNWRAP_NESTED = True
+LLM_MODEL = "gpt-4o-mini"
 
 # download settings
 DOWNLOADER_MIDDLEWARES = {"scrapy_llm.handler.LlmExtractorMiddleware": 543}
