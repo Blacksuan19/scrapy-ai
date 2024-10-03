@@ -50,8 +50,12 @@ class LlmExtractorConfig:
                 "Response model not provided for LlmExtractorMiddleware, Please set LLM_RESPONSE_MODEL to class path in settings or define response_model in the spider."
             )
 
-        html_cleaner_ignore_links: bool = crawler.settings.get("HTML_CLEANER_IGNORE_LINKS", True)
-        html_cleaner_ignore_images: bool = crawler.settings.get("HTML_CLEANER_IGNORE_IMAGES", True)
+        html_cleaner_ignore_links: bool = crawler.settings.get(
+            "HTML_CLEANER_IGNORE_LINKS", True
+        )
+        html_cleaner_ignore_images: bool = crawler.settings.get(
+            "HTML_CLEANER_IGNORE_IMAGES", True
+        )
 
         return cls(
             response_model=response_model,
@@ -61,5 +65,5 @@ class LlmExtractorConfig:
             llm_temperature=model_temperature,
             llm_system_message=system_message,
             html_cleaner_ignore_links=html_cleaner_ignore_links,
-            html_cleaner_ignore_images=html_cleaner_ignore_images
+            html_cleaner_ignore_images=html_cleaner_ignore_images,
         )

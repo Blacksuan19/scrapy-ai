@@ -71,9 +71,9 @@ class LlmExtractorMiddleware(Generic[T]):
                     "content": process_html(
                         raw_html,
                         self.config.html_cleaner_ignore_links,
-                        self.config.html_cleaner_ignore_images
-                    )
-                }
+                        self.config.html_cleaner_ignore_images,
+                    ),
+                },
             ],
             # always return an iterable of the given type to simplify nested type cascading.
             response_model=Iterable[response_model],
