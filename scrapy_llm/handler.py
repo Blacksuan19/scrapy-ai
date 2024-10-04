@@ -6,8 +6,10 @@ from scrapy import Request, signals
 from scrapy.crawler import Crawler
 from scrapy.http.response import Response
 from scrapy.spiders import Spider
+from scrapy.utils.log import logger
+from scrapy.exceptions import NotConfigured
 
-from scrapy_llm.config import LLM_EXTRACTED_DATA_KEY, LlmExtractorConfig
+from scrapy_llm.config import LLM_EXTRACTED_DATA_KEY, LLM_RESPONSE_MODEL_KEY, LlmExtractorConfig
 from scrapy_llm.types import LLMOutput, T
 from scrapy_llm.utils import flatten_dict, process_html
 
@@ -33,8 +35,17 @@ class LlmExtractorMiddleware(Generic[T]):
     def process_response(
         self, request: Request, response: Response, spider: Spider
     ) -> Response:
+        response_model = request.meta.get(LLM_RESPONSE_MODEL_KEY) or self.config.response_model
+        if not response_model:
+            raise NotConfigured(
+                """
+                Response model not provided for LlmExtractorMiddleware.
+                Please set LLM_RESPONSE_MODEL to class path in settings, define response_model in the spider, or provide response model object in Request meta.
+                """
+            )
+
         extracted_data = self.extract_item_data(
-            response.text, self.config.response_model
+            response.text, response_model
         )
 
         if self.config.unwrap_nested:

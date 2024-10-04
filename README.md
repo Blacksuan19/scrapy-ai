@@ -1,6 +1,6 @@
 # Scrapy-LLM
 
-LLM integration for scrapy as a middleware. Extract any data from the web using your own predefined schema with your own preferred language model.
+LLM integration for Scrapy as a middleware. Extract any data from the web using your own predefined schema with your own preferred language model.
 
 [![view - Documentation](https://img.shields.io/badge/PyPi-0.1.19-blue?style=for-the-badge)](https://pypi.org/project/scrapy-llm "view package on PyPi")
 &nbsp;&nbsp;&nbsp;
@@ -22,7 +22,7 @@ pip install scrapy-llm
 
 ## Usage
 
-The guide below assumes that a scrapy project has already been set up. If not, follow the [official scrapy tutorial](https://docs.scrapy.org/en/latest/intro/tutorial.html) to create a new project.
+The guide below assumes that a Scrapy project has already been set up. If not, follow the [official Scrapy tutorial](https://docs.scrapy.org/en/latest/intro/tutorial.html) to create a new project.
 
 Setup the middleware in the `settings.py` file and define the response model to use for extracting data from the web page text.
 
@@ -95,9 +95,64 @@ class ResponseModel(BaseModel):
     )
 ```
 
+### Using multiple response models
+
+If you need to scrape multiple webpages with different schemas, you can define multiple response models and pass them directly to the middleware. Suppose you have the following models:
+
+```python
+# models.py
+from pydantic import BaseModel, Field
+from pydantic_string_url import HttpUrl
+from typing import Optional
+
+class ModelA(BaseModel):
+    field1: str = Field(description="The first field")
+    field2: int = Field(description="The second field")
+    subpage_url: Optional[HttpUrl] = Field(description="The URL of the subpage. This will be a link to a page using ModelB as the response model.")
+
+class ModelB(BaseModel):
+    field3: str = Field(description="The third field")
+    field4: float = Field(description="The fourth field")
+```
+
+You can then pass the appropriate model to the middleware based on the webpage you are scraping. For example:
+
+```python
+# spider.py
+import scrapy
+
+from scrapy.http.response.html import HtmlResponse
+from scrapy_llm.config import LLM_EXTRACTED_DATA_KEY, LLM_RESPONSE_MODEL_KEY
+
+from scraper.models import ModelA, ModelB
+
+class MySpider(scrapy.Spider):
+    name = 'myspider'
+
+    def __init__(self, *args, **kwargs):
+        super(MySpider, self).__init__(*args, **kwargs)
+        self.start_url = 'https://example.com/model-a'
+
+    def start_requests(self):
+        yield scrapy.Request(self.start_url, callback=self.parse_model_a, meta={LLM_RESPONSE_MODEL_KEY: ModelA})
+
+    def parse_model_a(self, response: HtmlResponse):
+        extracted_data = response.request.meta.get(LLM_EXTRACTED_DATA_KEY)
+        if (len(extracted_data) > 0):
+            yield extracted_data[0]
+            subpage_url = extracted_data[0].subpage_url
+            if subpage_url is not None:
+                yield scrapy.Request(subpage_url, callback=self.parse_model_b, meta={LLM_RESPONSE_MODEL_KEY: ModelB})
+
+    def parse_model_b(self, response: HtmlResponse):
+        # handle the model b response here
+```
+
+You can still set the response model using the `LLM_RESPONSE_MODEL` setting if you want to, in which case that model will be used if no model is passed to the middleware.
+
 ## Examples
 
-the [examples](./examples/) directory contains a sample scrapy project that uses the middleware to extract capacity data from university websites.
+the [examples](./examples/) directory contains a sample Scrapy project that uses the middleware to extract capacity data from university websites.
 
 to run the example project, export your openai api key as an environment variable, in addition to any other settings you want to change.
 

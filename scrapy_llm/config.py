@@ -3,11 +3,11 @@ from dataclasses import dataclass
 from typing import Final, Optional, Type
 
 from scrapy.crawler import Crawler
-from scrapy.exceptions import NotConfigured
 
 from scrapy_llm.types import T
 
 LLM_EXTRACTED_DATA_KEY: Final[str] = "llm_extracted_data"
+LLM_RESPONSE_MODEL_KEY: Final[str] = "llm_response_model"
 
 
 @dataclass
@@ -45,10 +45,6 @@ class LlmExtractorConfig:
             module_path, class_name = response_model_path.rsplit(".", 1)
             module = importlib.import_module(module_path)
             response_model = getattr(module, class_name)
-        elif not response_model:
-            raise NotConfigured(
-                "Response model not provided for LlmExtractorMiddleware, Please set LLM_RESPONSE_MODEL to class path in settings or define response_model in the spider."
-            )
 
         html_cleaner_ignore_links: bool = crawler.settings.get(
             "HTML_CLEANER_IGNORE_LINKS", True
