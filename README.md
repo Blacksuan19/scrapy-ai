@@ -137,10 +137,10 @@ class MySpider(scrapy.Spider):
         yield scrapy.Request(self.start_url, callback=self.parse_model_a, meta={LLM_RESPONSE_MODEL_KEY: ModelA})
 
     def parse_model_a(self, response: HtmlResponse):
-        extractedData = response.request.meta.get(LLM_EXTRACTED_DATA_KEY)
-        if (len(extractedData) > 0):
-            yield extractedData[0]
-            subpage_url = extractedData[0].subpage_url
+        extracted_data = response.request.meta.get(LLM_EXTRACTED_DATA_KEY)
+        if (len(extracted_data) > 0):
+            yield extracted_data[0]
+            subpage_url = extracted_data[0].subpage_url
             if subpage_url is not None:
                 yield scrapy.Request(subpage_url, callback=self.parse_model_b, meta={LLM_RESPONSE_MODEL_KEY: ModelB})
 
