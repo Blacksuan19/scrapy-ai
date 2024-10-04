@@ -24,7 +24,7 @@ def process_html(
     cleaner.ignore_links = ignore_links
     cleaner.ignore_images = ignore_images
     clean_content = cleaner.handle(html)
-    return " ".join(clean_content)
+    return clean_content
 
 
 def flatten_dict(items: T) -> CombinedLLMOutput:
