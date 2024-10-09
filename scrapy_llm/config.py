@@ -18,7 +18,11 @@ class LlmExtractorConfig:
     llm_model: str = "gpt-4-turbo"
     llm_temperature: float = 0.0001
     llm_system_message: str = (
-        "You are a data extraction expert, your role is to extract data from the given text according to the provided schema. make sure your output is a valid JSON object."
+        """"
+        You are a data extraction expert, your role is to extract data from the given text according to the provided schema. make sure your output is a valid JSON object.
+
+        If you find relative URLs in the source, turn them into absolute URLs.
+        """
     )
     html_cleaner_ignore_links: bool = True
     html_cleaner_ignore_images: bool = True

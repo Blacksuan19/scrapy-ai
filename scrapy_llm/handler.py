@@ -45,7 +45,7 @@ class LlmExtractorMiddleware(Generic[T]):
             )
 
         extracted_data = self.extract_item_data(
-            response.text, response_model
+            request.url, response.text, response_model
         )
 
         if self.config.unwrap_nested:
@@ -60,6 +60,7 @@ class LlmExtractorMiddleware(Generic[T]):
 
     def extract_item_data(
         self,
+        base_url: str,
         raw_html: str,
         response_model: Type[T],
     ) -> List[LLMOutput]:
@@ -75,7 +76,7 @@ class LlmExtractorMiddleware(Generic[T]):
             messages=[
                 {
                     "role": "system",
-                    "content": self.config.llm_system_message,
+                    "content": self.config.llm_system_message + " " + f"The base URL is {base_url}",
                 },
                 {
                     "role": "user",
