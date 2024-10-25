@@ -64,11 +64,15 @@ class LlmExtractorMiddleware(Generic[T]):
         response_model: Type[T],
         url: str,
     ) -> List[LLMOutput]:
-        """Extract dorm data from the given HTML text using an LLM model."""
+        """Extract data from the given HTML text using an LLM model."""
 
         cl = instructor.from_litellm(completion)
 
-        system_message = f"{self.config.llm_system_message}{url} {self.config.llm_additional_system_message}"
+        system_message = f"""
+            {self.config.llm_system_message.format(url=url)} 
+            {self.config.llm_additional_system_messages.get("_base", "")} 
+            {self.config.llm_additional_system_messages.get(response_model.__name__, "")}
+        """
 
         resp: List[response_model] = cl.chat.completions.create(
             model=self.config.llm_model,

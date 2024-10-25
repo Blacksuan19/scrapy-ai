@@ -278,12 +278,28 @@ LLM_MODEL_TEMPERATURE = 0.0001
 
 - type: str
 - required: False
-- default: You are a data extraction expert, your role is to extract data from the given text according to the provided schema. make sure your output is a valid JSON object.
+- default: You are a data extraction expert, your role is to extract data from the given text according to the provided schema. Make sure your output is a valid JSON object. 
+You are crawling the following URL: {url}
 
-the system message to use for the language model.
+the system message to use for the language model. Use the `{url}` placeholder to include the URL of the webpage being scraped.
 
 ```python
 LLM_SYSTEM_MESSAGE = '...'
+```
+
+### `LLM_ADDITIONAL_SYSTEM_MESSAGES`
+
+- type: dict[str, str]
+- required: False
+- default: {}
+
+additional system messages appended to the default system message. Use "_base" as the key to add a message that will be used for all response models. Use the name of the response model as the key to add a message that will be used for a specific response model.
+
+```python
+LLM_ADDITIONAL_SYSTEM_MESSAGES = {
+    "_base": "...",
+    "ResponseModel": "..."
+}
 ```
 
 ### `HTML_CLEANER_IGNORE_LINKS`
