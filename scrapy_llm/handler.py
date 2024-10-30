@@ -68,11 +68,7 @@ class LlmExtractorMiddleware(Generic[T]):
 
         cl = instructor.from_litellm(completion)
 
-        system_message = f"""
-            {self.config.llm_system_message.format(url=url)} 
-            {self.config.llm_additional_system_messages.get("_base", "")} 
-            {self.config.llm_additional_system_messages.get(response_model.__name__, "")}
-        """
+        system_message = f"{self.config.llm_system_message.format(url=url)} {self.config.llm_additional_system_message}"
 
         resp: List[response_model] = cl.chat.completions.create(
             model=self.config.llm_model,

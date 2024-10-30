@@ -287,19 +287,16 @@ the system message to use for the language model. Use the `{url}` placeholder to
 LLM_SYSTEM_MESSAGE = '...'
 ```
 
-### `LLM_ADDITIONAL_SYSTEM_MESSAGES`
+### `LLM_ADDITIONAL_SYSTEM_MESSAGE`
 
-- type: dict[str, str]
+- type: str
 - required: False
-- default: {}
+- default: ""
 
-additional system messages appended to the default system message. Use "_base" as the key to add a message that will be used for all response models. Use the name of the response model as the key to add a message that will be used for a specific response model.
+the additional system message is appended to the default system message.
 
 ```python
-LLM_ADDITIONAL_SYSTEM_MESSAGES = {
-    "_base": "...",
-    "ResponseModel": "..."
-}
+LLM_ADDITIONAL_SYSTEM_MESSAGE = "..."
 ```
 
 ### `HTML_CLEANER_IGNORE_LINKS`
