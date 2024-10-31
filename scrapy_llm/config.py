@@ -18,8 +18,10 @@ class LlmExtractorConfig:
     llm_model: str = "gpt-4-turbo"
     llm_temperature: float = 0.0001
     llm_system_message: str = (
-        "You are a data extraction expert, your role is to extract data from the given text according to the provided schema. make sure your output is a valid JSON object."
+        "You are a data extraction expert, your role is to extract data from the given text according to the provided schema. Make sure your output is a valid JSON object. "
+        "You are crawling the following URL: {url}"
     )
+    llm_additional_system_message: str = ""
     html_cleaner_ignore_links: bool = True
     html_cleaner_ignore_images: bool = True
 
@@ -28,6 +30,9 @@ class LlmExtractorConfig:
         api_base: str = crawler.settings.get("LLM_API_BASE", cls.llm_api_base)
         system_message: str = crawler.settings.get(
             "LLM_SYSTEM_MESSAGE", cls.llm_system_message
+        )
+        additional_system_message: str = crawler.settings.get(
+            "LLM_ADDITIONAL_SYSTEM_MESSAGE", ""
         )
         model: str = crawler.settings.get("LLM_MODEL", cls.llm_model)
         model_temperature: float = crawler.settings.get(
@@ -60,6 +65,7 @@ class LlmExtractorConfig:
             llm_model=model,
             llm_temperature=model_temperature,
             llm_system_message=system_message,
+            llm_additional_system_message=additional_system_message,
             html_cleaner_ignore_links=html_cleaner_ignore_links,
             html_cleaner_ignore_images=html_cleaner_ignore_images,
         )

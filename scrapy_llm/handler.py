@@ -45,7 +45,7 @@ class LlmExtractorMiddleware(Generic[T]):
             )
 
         extracted_data = self.extract_item_data(
-            response.text, response_model
+            response.text, response_model, request.url
         )
 
         if self.config.unwrap_nested:
@@ -62,10 +62,13 @@ class LlmExtractorMiddleware(Generic[T]):
         self,
         raw_html: str,
         response_model: Type[T],
+        url: str,
     ) -> List[LLMOutput]:
-        """Extract dorm data from the given HTML text using an LLM model."""
+        """Extract data from the given HTML text using an LLM model."""
 
         cl = instructor.from_litellm(completion)
+
+        system_message = f"{self.config.llm_system_message.format(url=url)} {self.config.llm_additional_system_message}"
 
         resp: List[response_model] = cl.chat.completions.create(
             model=self.config.llm_model,
@@ -75,7 +78,7 @@ class LlmExtractorMiddleware(Generic[T]):
             messages=[
                 {
                     "role": "system",
-                    "content": self.config.llm_system_message,
+                    "content": system_message,
                 },
                 {
                     "role": "user",
